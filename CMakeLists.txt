@@ -20,7 +20,11 @@
 #
 ############################################################################
 
-cmake_minimum_required(VERSION 3.1)
+
+# CMake 3.13 required for new Flexisip build process.
+# See [CMP077](https://cmake.org/cmake/help/v3.13/policy/CMP0077.html).
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
+
 project(BELR VERSION 4.5.0 LANGUAGES C CXX)
 
 set(BELR_SO_VERSION "1")
@@ -50,7 +54,9 @@ endif()
 
 # find_package should be invoked here to check for libraries - however do NOT
 # call include_directories here (see below)
-find_package(bctoolbox 0.0.5 REQUIRED OPTIONAL_COMPONENTS tester)
+if(NOT DISABLE_BC_PACKAGE_SEARCH)
+	find_package(bctoolbox 0.0.5 REQUIRED OPTIONAL_COMPONENTS tester)
+endif()
 
 set(LINK_FLAGS )
 
@@ -130,10 +136,6 @@ endif()
 include(CMakePackageConfigHelpers)
 set(EXPORT_TARGET_NAME belr)
 set(ConfigPackageLocation "${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_TARGET_NAME}")
-
-export(EXPORT ${EXPORT_TARGET_NAME}Targets
-	FILE "${CMAKE_CURRENT_BINARY_DIR}/${EXPORT_TARGET_NAME}Targets.cmake"
-)
 
 configure_package_config_file(cmake/BelrConfig.cmake.in
 	"${CMAKE_CURRENT_BINARY_DIR}/${EXPORT_TARGET_NAME}Config.cmake"
