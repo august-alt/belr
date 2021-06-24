@@ -23,7 +23,7 @@
 
 # CMake 3.13 required for new Flexisip build process.
 # See [CMP077](https://cmake.org/cmake/help/v3.13/policy/CMP0077.html).
-cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13)
 
 project(BELR VERSION 4.5.0 LANGUAGES C CXX)
 
